@@ -3,6 +3,13 @@
 Задание 1
 Представь: тебе нужно проверить, отображается ли созданный заказ в базе данных.
 Для этого: выведи список логинов курьеров с количеством их заказов в статусе «В доставке» (поле inDelivery = true). 
+запрос:
+
+          SELECT c.login, COUNT(o.id) AS "deliveryCount" 
+          FROM "Couriers" AS c 
+          LEFT JOIN "Orders" AS o ON c.id = o."courierId" 
+          WHERE o."inDelivery" = true 
+          GROUP BY c.login;
 Скриншот SQL_1
 
 Задание 2
@@ -14,6 +21,14 @@
 Если поле inDelivery == true, то вывести статус 1.
 Для остальных случаев вывести 0.
 Скриншот SQL_2
+запрос:
+         SELECT track, 
+              CASE 
+         WHEN finished = true THEN 2 
+         WHEN cancelled = true THEN -1 
+         WHEN "inDelivery" = true THEN 1 
+        ELSE 0 END AS status
+        FROM "Orders";
 
 Автоматизация теста к API
 Теперь автоматизируй сценарий, который подготовили коллеги-тестировщики:
@@ -24,5 +39,10 @@
 Сохранить номер трека заказа.
 Выполнить запрос на получения заказа по треку заказа.
 Проверить, что код ответа равен 200.
-Скриншот pycharm_1, pycharm_2
+
+Для запуска теста необходимо в файл configuration скопировить URLстенда вида 
+https://7b6b5ade-dbda-4523-aad6-50978727d2a9.serverhub.praktikum-services.ru
+В файле Autotest  нажать кнопку Run 
+
+Скриншот Autotest.png
 
